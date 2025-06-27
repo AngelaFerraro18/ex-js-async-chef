@@ -11,11 +11,31 @@ async function fetchJson(url) {
 }
 
 async function getChefBirthday(id) {
-    const ricetta = await fetchJson(`https://dummyjson.com/recipes/${id}`);
 
+    let ricetta;
+
+    try {
+        ricetta = await fetchJson(`https://dummyjson.com/recipes/${id}`);
+    } catch (err) {
+        throw new Error(`Non posso raggiungere la ricetta con id: ${id}`)
+    }
+
+    if (ricetta.message) {
+        throw new Error(ricetta.message)
+    }
     const userId = ricetta.userId;
 
-    const chef = await fetchJson(`https://dummyjson.com/users/${userId}`);
+    let chef;
+
+    try {
+        chef = await fetchJson(`https://dummyjson.com/users/${userId}`);
+    } catch (err) {
+        throw new Error(`Non posso raggiungere lo chef con l'id: ${userId}`)
+    }
+
+    if (chef.message) {
+        throw new Error(chef.message)
+    }
 
     return chef.birthDate;
 }
