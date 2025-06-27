@@ -37,7 +37,11 @@ async function getChefBirthday(id) {
         throw new Error(chef.message)
     }
 
-    return chef.birthDate;
+    const dataCompleanno = chef.birthDate;
+
+    const dataFormattata = dayjs(dataCompleanno).format('DD/MM/YYYY');
+
+    return dataFormattata;
 }
 
 
